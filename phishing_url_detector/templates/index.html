@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Phishing URL Detector</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 40px;
+            background-color: #f4f4f4;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        input[type=text] {
+            width: 60%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        input[type=submit] {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background-color: #007BFF;
+            color: white;
+        }
+
+        .result {
+            margin-top: 30px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🔐 Phishing URL Detector</h1>
+    <form method="post">
+        <input type="text" name="url" placeholder="Enter a URL..." required />
+        <input type="submit" value="Check URL" />
+    </form>
+
+    {% if result %}
+    <div class="result">{{ result }}</div>
+    {% endif %}
+
+    {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    {% if history %}
+    <h3>Submission History</h3>
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>Timestamp</th>
+            <th>URL</th>
+            <th>Result</th>
+        </tr>
+        {% for item in history %}
+        <tr>
+            <td>{{ item.timestamp }}</td>
+            <td>{{ item.url }}</td>
+            <td>
+                {% if item.result == 0 %}
+                <span style="color: green;">✅ Legitimate</span>
+                {% else %}
+                <span style="color: red;">⚠️ Phishing</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+</body>
+
+</html>
